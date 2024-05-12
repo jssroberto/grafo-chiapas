@@ -13,8 +13,8 @@ public class InsercionLocalidades {
     Localidad tuxtlaGutierrez = new Localidad("Tuxtla Gutierrez");
     Localidad huixtla = new Localidad("Huixtla");
     Localidad teopisca = new Localidad("Teopisca");
-    Localidad comitanDominguez = new Localidad("Comitan de Dominguez");
-    Localidad chiapaCorzo = new Localidad("Heroica Chiapa de Corzo");
+    Localidad comitan = new Localidad("Comitán");
+    Localidad chiapaCorzo = new Localidad("Chiapa de Corzo");
     Localidad palenque = new Localidad("Palenque");
     Localidad cintalopaFigueroa = new Localidad("Cintalapa de Figueroa");
     Localidad ocosingo = new Localidad("Ocosingo");
@@ -22,7 +22,7 @@ public class InsercionLocalidades {
     Localidad tonala = new Localidad("Tonala");
     Localidad villaflores = new Localidad("Villaflores");
     Localidad berriozabal = new Localidad("Berriozabal");
-    Localidad tapachula = new Localidad("Tapachula de Cordova y Ordonez");
+    Localidad tapachula = new Localidad("Tapachula");
     Localidad reforma = new Localidad("Reforma");
     Localidad motozintla = new Localidad("Motozintla de Mendoza");
     Localidad arriaga = new Localidad("Arriaga");
@@ -50,7 +50,7 @@ public class InsercionLocalidades {
         chiapas.agregarLocalidad(tuxtlaGutierrez);
         chiapas.agregarLocalidad(huixtla);
         chiapas.agregarLocalidad(teopisca);
-        chiapas.agregarLocalidad(comitanDominguez);
+        chiapas.agregarLocalidad(comitan);
         chiapas.agregarLocalidad(chiapaCorzo);
         chiapas.agregarLocalidad(palenque);
         chiapas.agregarLocalidad(cintalopaFigueroa);
@@ -82,14 +82,14 @@ public class InsercionLocalidades {
         chiapas.agregarCarretera(new Carretera(182.2, huixtla, tonala));
         chiapas.agregarCarretera(new Carretera(50.2, motozintla, comalapa));
         chiapas.agregarCarretera(new Carretera(20.5, tonala, arriaga));
-        chiapas.agregarCarretera(new Carretera(95.4, comalapa, comitanDominguez));
+        chiapas.agregarCarretera(new Carretera(95.4, comalapa, comitan));
         chiapas.agregarCarretera(new Carretera(69.2, arriaga, cintalopaFigueroa));
         chiapas.agregarCarretera(new Carretera(114, arriaga, villaflores));
         chiapas.agregarCarretera(new Carretera(101, arriaga, ocozocoautla));
-        chiapas.agregarCarretera(new Carretera(20.6, comitanDominguez, margaritas));
-        chiapas.agregarCarretera(new Carretera(40.0, comitanDominguez, rosas));
-        chiapas.agregarCarretera(new Carretera(60.1, comitanDominguez, teopisca));
-        chiapas.agregarCarretera(new Carretera(103.0, comitanDominguez, ocosingo));
+        chiapas.agregarCarretera(new Carretera(20.6, comitan, margaritas));
+        chiapas.agregarCarretera(new Carretera(40.0, comitan, rosas));
+        chiapas.agregarCarretera(new Carretera(60.1, comitan, teopisca));
+        chiapas.agregarCarretera(new Carretera(103.0, comitan, ocosingo));
         chiapas.agregarCarretera(new Carretera(93.1, margaritas, ocosingo));
         chiapas.agregarCarretera(new Carretera(27.6, rosas, teopisca));
         chiapas.agregarCarretera(new Carretera(33.7, teopisca, sanCristobal));
