@@ -10,29 +10,29 @@ import java.util.Map;
  * @author Roberto García
  */
 public class Estado {
-    private Map<Localidad, List<Localidad>> listaAdyacencia;
+
+    private Map<Localidad, List<Carretera>> listaAdyacencia;
 
     public Estado() {
         listaAdyacencia = new LinkedHashMap<>();
     }
 
-    public Map<Localidad, List<Localidad>> getListaAdyacencia() {
+    public Map<Localidad, List<Carretera>> getListaAdyacencia() {
         return listaAdyacencia;
     }
 
-    public void setListaAdyacencia(Map<Localidad, List<Localidad>> listaAdyacencia) {
+    public void setListaAdyacencia(Map<Localidad, List<Carretera>> listaAdyacencia) {
         this.listaAdyacencia = listaAdyacencia;
     }
-    
-    public void agregarLocalidad(String localidad){
+
+    public void agregarLocalidad(String localidad) {
         listaAdyacencia.putIfAbsent(new Localidad(localidad), new LinkedList<>());
     }
-    
-    public void agregarCarretera(String localidadOrigen, String localidadDestino){
-        Localidad localidad1 = new Localidad(localidadOrigen);
-        Localidad localidad2 = new Localidad(localidadDestino);
-        listaAdyacencia.get(localidad1).add(localidad2);
+
+    public void agregarCarretera(double distancia, Localidad lugarDestino, Localidad lugarOrigen) {
+        Carretera carretera =new Carretera();
+        listaAdyacencia.get(carretera.origen).add(carretera);
+        listaAdyacencia.get(carretera.destino).add(new Carretera(carretera.destino, carretera.origen, carretera.distancia));
     }
-    
-    
+
 }
