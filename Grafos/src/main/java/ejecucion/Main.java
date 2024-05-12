@@ -8,10 +8,12 @@ import localidades.InsercionLocalidades;
  * @author Roberto García
  */
 public class Main {
-    public static void main(String[] args){
+
+    public static void main(String[] args) {
         Estado chiapas = new Estado();
         InsercionLocalidades insercionLocalidades = new InsercionLocalidades(chiapas);
         insercionLocalidades.insertarLocalidades();
-        System.out.println(chiapas.getListaAdyacencia());
+        insercionLocalidades.insertarCarreteras();
+        chiapas.imprimirLista(chiapas.getListaAdyacencia());
     }
 }

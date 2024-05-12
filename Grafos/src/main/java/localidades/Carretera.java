@@ -9,7 +9,7 @@ package localidades;
  * @author Usuario
  */
 public class Carretera {
-    private float distancia;
+    private double distancia;
     private Localidad origen;
     private Localidad destino;
 
@@ -17,13 +17,13 @@ public class Carretera {
     }
 
     
-    public Carretera(float distancia, Localidad origen, Localidad destino) {
+    public Carretera(double distancia, Localidad origen, Localidad destino) {
         this.distancia = distancia;
         this.origen = origen;
         this.destino = destino;
     }
 
-    public float getDistancia() {
+    public double getDistancia() {
         return distancia;
     }
 
@@ -45,6 +45,11 @@ public class Carretera {
 
     public void setLugarDestino(Localidad destino) {
         this.destino = destino;
+    }
+
+    @Override
+    public String toString() {
+        return "Distancia (" + distancia+"km)" + ", Origen (" + origen+")" + ", Destino (" + destino+")" ;
     }
     
     
