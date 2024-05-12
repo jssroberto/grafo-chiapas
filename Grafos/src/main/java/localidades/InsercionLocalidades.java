@@ -2,11 +2,14 @@ package localidades;
 
 /**
  *
- * @author Roberto García
+ * @author Roberto García Clase que se encarga de insertar las localidades y las
+ * carreteras en el estado de Chiapas.
  */
 public class InsercionLocalidades {
 
-    private Estado chiapas;
+    private Estado chiapas; // Instancia del estado de Chiapas
+
+    // Declaración de las localidades
     Localidad tuxtlaGutierrez = new Localidad("Tuxtla Gutierrez");
     Localidad huixtla = new Localidad("Huixtla");
     Localidad teopisca = new Localidad("Teopisca");
@@ -28,11 +31,22 @@ public class InsercionLocalidades {
     Localidad rosas = new Localidad("Las Rosas");
     Localidad sanCristobal = new Localidad("San Cristobal de Las Casas");
 
+    /**
+     * Constructor de la clase InsercionLocalidades.
+     *
+     * @param chiapas El estado de Chiapas donde se van a insertar las
+     * localidades y carreteras.
+     */
     public InsercionLocalidades(Estado chiapas) {
         this.chiapas = chiapas;
     }
 
+    /**
+     * Método que inserta las localidades en el estado de Chiapas.
+     */
     public void insertarLocalidades() {
+
+        // Agregar cada localidad al estado de Chiapas
         chiapas.agregarLocalidad(tuxtlaGutierrez);
         chiapas.agregarLocalidad(huixtla);
         chiapas.agregarLocalidad(teopisca);
@@ -56,7 +70,13 @@ public class InsercionLocalidades {
 
     }
 
+    /**
+     * Método que inserta las carreteras entre las localidades en el estado de
+     * Chiapas.
+     */
     public void insertarCarreteras() {
+        
+        // Agregar cada carretera entre las localidades al estado de Chiapas
         chiapas.agregarCarretera(new Carretera(41.0, tapachula, huixtla));
         chiapas.agregarCarretera(new Carretera(59.0, huixtla, motozintla));
         chiapas.agregarCarretera(new Carretera(182.2, huixtla, tonala));
