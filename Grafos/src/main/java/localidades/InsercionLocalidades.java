@@ -7,26 +7,26 @@ package localidades;
 public class InsercionLocalidades {
 
     private Estado chiapas;
-    Localidad tuxtlaGutierrez = new Localidad("Tuxtla Gutiérrez");
-    Localidad tapachula = new Localidad("Tapachula de Córdova y Ordóñez");
-    Localidad sanCristobal = new Localidad("San Cristóbal de Las Casas");
-    Localidad comitanDominguez = new Localidad("Comitán de Domínguez");
+    Localidad tuxtlaGutierrez = new Localidad("Tuxtla Gutierrez");
+    Localidad huixtla = new Localidad("Huixtla");
+    Localidad teopisca = new Localidad("Teopisca");
+    Localidad comitanDominguez = new Localidad("Comitan de Dominguez");
     Localidad chiapaCorzo = new Localidad("Heroica Chiapa de Corzo");
     Localidad palenque = new Localidad("Palenque");
     Localidad cintalopaFigueroa = new Localidad("Cintalapa de Figueroa");
     Localidad ocosingo = new Localidad("Ocosingo");
     Localidad ocozocoautla = new Localidad("Ocozocoautla de Espinosa");
-    Localidad tonala = new Localidad("Tonalá");
+    Localidad tonala = new Localidad("Tonala");
     Localidad villaflores = new Localidad("Villaflores");
-    Localidad berriozabal = new Localidad("Berriozábal");
-    Localidad huixtla = new Localidad("Huixtla");
+    Localidad berriozabal = new Localidad("Berriozabal");
+    Localidad tapachula = new Localidad("Tapachula de Cordova y Ordonez");
     Localidad reforma = new Localidad("Reforma");
     Localidad motozintla = new Localidad("Motozintla de Mendoza");
     Localidad arriaga = new Localidad("Arriaga");
     Localidad margaritas = new Localidad("Las Margaritas");
     Localidad comalapa = new Localidad("Frontera Comalapa");
     Localidad rosas = new Localidad("Las Rosas");
-    Localidad teopisca = new Localidad("Teopisca");
+    Localidad sanCristobal = new Localidad("San Cristobal de Las Casas");
 
     public InsercionLocalidades(Estado chiapas) {
         this.chiapas = chiapas;
@@ -34,8 +34,8 @@ public class InsercionLocalidades {
 
     public void insertarLocalidades() {
         chiapas.agregarLocalidad(tuxtlaGutierrez);
-        chiapas.agregarLocalidad(tapachula);
-        chiapas.agregarLocalidad(sanCristobal);
+        chiapas.agregarLocalidad(huixtla);
+        chiapas.agregarLocalidad(teopisca);
         chiapas.agregarLocalidad(comitanDominguez);
         chiapas.agregarLocalidad(chiapaCorzo);
         chiapas.agregarLocalidad(palenque);
@@ -45,14 +45,14 @@ public class InsercionLocalidades {
         chiapas.agregarLocalidad(tonala);
         chiapas.agregarLocalidad(villaflores);
         chiapas.agregarLocalidad(berriozabal);
-        chiapas.agregarLocalidad(huixtla);
+        chiapas.agregarLocalidad(tapachula);
         chiapas.agregarLocalidad(reforma);
         chiapas.agregarLocalidad(motozintla);
         chiapas.agregarLocalidad(arriaga);
         chiapas.agregarLocalidad(margaritas);
         chiapas.agregarLocalidad(comalapa);
         chiapas.agregarLocalidad(rosas);
-        chiapas.agregarLocalidad(teopisca);
+        chiapas.agregarLocalidad(sanCristobal);
 
     }
 

@@ -14,6 +14,7 @@ public class Main {
         InsercionLocalidades insercionLocalidades = new InsercionLocalidades(chiapas);
         insercionLocalidades.insertarLocalidades();
         insercionLocalidades.insertarCarreteras();
-        chiapas.imprimirLista(chiapas.getListaAdyacencia());
+        Menu menu=new Menu(chiapas);
+        menu.desplegarMenu();
     }
 }
