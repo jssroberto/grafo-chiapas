@@ -11,15 +11,15 @@ import localidades.InsercionLocalidades;
 public class Main {
 
     public static void main(String[] args) {
-//        Estado chiapas = new Estado();
-//        InsercionLocalidades insercionLocalidades = new InsercionLocalidades(chiapas);
-//        insercionLocalidades.insertarLocalidades();
-//        insercionLocalidades.insertarCarreteras();
+        Estado chiapas = new Estado();
+        InsercionLocalidades insercionLocalidades = new InsercionLocalidades(chiapas);
+        insercionLocalidades.insertarLocalidades();
+        insercionLocalidades.insertarCarreteras();
 //        Menu menu=new Menu(chiapas);
 //        menu.desplegarMenu();
         
         FramePrincipal framePrincipal = new FramePrincipal();
-        framePrincipal.cambiarVistaInicio();
+        framePrincipal.cambiarVistaInicio(chiapas);
         framePrincipal.setVisible(true);
     }
 }

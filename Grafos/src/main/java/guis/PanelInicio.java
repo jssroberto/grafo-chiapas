@@ -1,19 +1,47 @@
 package guis;
 
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import localidades.Carretera;
+import localidades.Estado;
+import localidades.Localidad;
+
 /**
  *
  * @author Roberto García
  */
 public class PanelInicio extends javax.swing.JPanel {
-
-    private FramePrincipal framePrincipal;
+    
+    private static final Logger logger = Logger.getLogger(PanelInicio.class.getName());
+    private final FramePrincipal framePrincipal;
+    private final Estado chiapas;
+    private final Map<Localidad, List<Carretera>> listaAdyacencia;
+    private final Map<Localidad, List<Carretera>> arbolEsparcimientoMinimo;
 
     /**
      * Creates new form PanelInicio
      */
-    public PanelInicio(FramePrincipal framePricipal) {
+    public PanelInicio(FramePrincipal framePricipal, Estado chiapas) {
         this.framePrincipal = framePricipal;
+        this.chiapas = chiapas;
+        this.listaAdyacencia = chiapas.getListaAdyacencia();
+        this.arbolEsparcimientoMinimo = chiapas.generarArbolExpansionMinima();
         initComponents();
+        scpPanelScroll.setOpaque(false); // Hacer el JScrollPane transparente
+        scpPanelScroll.getViewport().setOpaque(false); // Hacer transparente el viewport del JScrollPane
+        scpPanelScroll.setBorder(null); // Eliminar el borde del JScrollPane
+
+        scpPanelScroll.getVerticalScrollBar().setUnitIncrement(16); // Ajustar la velocidad del scroll vertical
+        scpPanelScroll.getHorizontalScrollBar().setUnitIncrement(16); // Ajustar la velocidad del scroll vertical
+
+        scpPanelScroll.setVisible(false);
+        panelRuta.setVisible(false);
     }
 
     /**
@@ -29,6 +57,19 @@ public class PanelInicio extends javax.swing.JPanel {
         btnGrafo = new javax.swing.JButton();
         btnArbol = new javax.swing.JButton();
         btnRuta = new javax.swing.JButton();
+        panelRuta = new javax.swing.JPanel();
+        lblListaLocalidades = new javax.swing.JLabel();
+        lblLocalidades = new javax.swing.JLabel();
+        lblFlecha = new javax.swing.JLabel();
+        lblTextoInstrucciones = new javax.swing.JLabel();
+        txtLocalidad1 = new javax.swing.JTextField();
+        txtLocalidad2 = new javax.swing.JTextField();
+        lblCiudad2 = new javax.swing.JLabel();
+        lblCiudad1 = new javax.swing.JLabel();
+        btnCalcular = new javax.swing.JButton();
+        lblResultado = new javax.swing.JLabel();
+        scpPanelScroll = new javax.swing.JScrollPane();
+        lblListaAdyacencia = new javax.swing.JLabel();
         lblFondo = new javax.swing.JLabel();
 
         setMaximumSize(new java.awt.Dimension(1200, 800));
@@ -79,34 +120,251 @@ public class PanelInicio extends javax.swing.JPanel {
         });
         add(btnRuta, new org.netbeans.lib.awtextra.AbsoluteConstraints(892, 125, 238, 40));
 
+        panelRuta.setMaximumSize(new java.awt.Dimension(1170, 592));
+        panelRuta.setMinimumSize(new java.awt.Dimension(1170, 592));
+        panelRuta.setOpaque(false);
+        panelRuta.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lblListaLocalidades.setForeground(new java.awt.Color(7, 7, 7));
+        panelRuta.add(lblListaLocalidades, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        lblLocalidades.setForeground(new java.awt.Color(7, 7, 7));
+        lblLocalidades.setText(" Lista de Localidades");
+        lblLocalidades.setToolTipText("");
+        panelRuta.add(lblLocalidades, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 5, -1, -1));
+
+        lblFlecha.setIcon(new javax.swing.ImageIcon(getClass().getResource("/flechaIzq.png"))); // NOI18N
+        panelRuta.add(lblFlecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 48, -1, -1));
+
+        lblTextoInstrucciones.setForeground(new java.awt.Color(7, 7, 7));
+        lblTextoInstrucciones.setText("Calcular la distancia más corta entre 2 cuidades:");
+        panelRuta.add(lblTextoInstrucciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 120, -1, -1));
+
+        txtLocalidad1.setForeground(new java.awt.Color(7, 7, 7));
+        txtLocalidad1.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        panelRuta.add(txtLocalidad1, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 208, 400, 40));
+
+        txtLocalidad2.setForeground(new java.awt.Color(7, 7, 7));
+        txtLocalidad2.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        panelRuta.add(txtLocalidad2, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 297, 400, 40));
+
+        lblCiudad2.setForeground(new java.awt.Color(7, 7, 7));
+        lblCiudad2.setText("Ciudad 2:");
+        panelRuta.add(lblCiudad2, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 263, -1, -1));
+
+        lblCiudad1.setForeground(new java.awt.Color(7, 7, 7));
+        lblCiudad1.setText("Ciudad 1:");
+        panelRuta.add(lblCiudad1, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 174, -1, -1));
+
+        btnCalcular.setBackground(new java.awt.Color(232, 77, 139));
+        btnCalcular.setForeground(new java.awt.Color(247, 247, 247));
+        btnCalcular.setText("Calcular");
+        btnCalcular.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnCalcular.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCalcularActionPerformed(evt);
+            }
+        });
+        panelRuta.add(btnCalcular, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 367, 150, 50));
+
+        lblResultado.setForeground(new java.awt.Color(7, 7, 7));
+        panelRuta.add(lblResultado, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 457, -1, -1));
+
+        add(panelRuta, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 193, 1170, 592));
+
+        scpPanelScroll.setToolTipText("");
+        scpPanelScroll.setViewportView(lblListaAdyacencia);
+
+        lblListaAdyacencia.setForeground(new java.awt.Color(7, 7, 7));
+        lblListaAdyacencia.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        scpPanelScroll.setViewportView(lblListaAdyacencia);
+        lblListaAdyacencia.getAccessibleContext().setAccessibleDescription("");
+
+        add(scpPanelScroll, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 193, 1170, 592));
+
         lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/inicio.png"))); // NOI18N
         add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1200, 800));
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        if(framePrincipal.mostrarConfirmacion("¿Seguro que deseas salir?", "Salir")){
+        if (framePrincipal.mostrarConfirmacion("¿Seguro que deseas salir?", "Salir")) {
             framePrincipal.dispose();
         }
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnGrafoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGrafoActionPerformed
-        // TODO add your handling code here:
+        
+        int opcion = framePrincipal.mostrarOpciones("Selecciona como quieres que se\nmuestre el grafo de Chiapas", "Mostrar Grafo", "Lista de adyacencia", "Imagen");
+        if (opcion == 1) {
+            mostrarListaAdyacencia(listaAdyacencia);
+        } else if (opcion == 2) {
+            
+        }
+
     }//GEN-LAST:event_btnGrafoActionPerformed
 
     private void btnArbolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnArbolActionPerformed
-        // TODO add your handling code here:
+        int opcion = framePrincipal.mostrarOpciones("Selecciona como quieres que se\nmuestre el MST de Chiapas", "Mostrar árbol de esparcimiento mínimo", "Lista de adyacencia", "Imagen");
+        if (opcion == 1) {
+            mostrarListaAdyacencia(arbolEsparcimientoMinimo);
+        } else if (opcion == 2) {
+            
+        }
     }//GEN-LAST:event_btnArbolActionPerformed
 
     private void btnRutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRutaActionPerformed
-        // TODO add your handling code here:
+        mostrarRuta(chiapas.getListaAdyacencia());
     }//GEN-LAST:event_btnRutaActionPerformed
 
+    private void btnCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularActionPerformed
+        try {
+            calcularRuta();
+        } catch (Exception ex) {
+            framePrincipal.mostrarAviso(ex.getMessage(), "Aviso");
+        }
+    }//GEN-LAST:event_btnCalcularActionPerformed
+    
+    public void calcularRuta() throws Exception {
+        Localidad localidad1;
+        Localidad localidad2;
+        if (txtLocalidad1.getText().isBlank() || txtLocalidad2.getText().isBlank()) {
+            throw new Exception("Los campos no pueden estar vacíos");
+        }
+        localidad1 = chiapas.obtenerLocalidadPorNombre(txtLocalidad1.getText());
+        if (localidad1 == null) {
+            throw new Exception("Localidad 1 no encontrada");
+        }
+        localidad2 = chiapas.obtenerLocalidadPorNombre(txtLocalidad2.getText());
+        if (localidad2 == null) {
+            throw new Exception("Localidad 2 no encontrada");
+        }
+        double distancia = chiapas.distanciaMasCorta(localidad1, localidad2);
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("La distancia más corta entre ")
+                .append(localidad1.toString())
+                .append("<br>y ")
+                .append(localidad2.toString())
+                .append(" son: ")
+                .append(String.valueOf(distancia))
+                .append("km");
+        lblResultado.setText("<html>" + stringBuilder.toString() + "</html>");
+        lblResultado.setFont(cargarFuente("/fonts/Lato/Lato-Regular.ttf", 25F));
+        
+    }
+    
+    public void mostrarListaAdyacencia(Map<Localidad, List<Carretera>> map) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Map.Entry<Localidad, List<Carretera>> entrada : map.entrySet()) {
+            stringBuilder.append(entrada.getKey());
+            for (Carretera valor : entrada.getValue()) {
+                stringBuilder.append(" ➜ ").append(valor);
+            }
+            stringBuilder.append("<br><br>");
+        }
+        lblListaAdyacencia.setText("<html>" + stringBuilder.toString() + "</html>");
+        lblListaAdyacencia.setFont(cargarFuente("/fonts/Lato/Lato-Regular.ttf", 22F));
+        panelRuta.setVisible(false);
+        scpPanelScroll.setVisible(true);
+        
+    }
+    
+    public void mostrarMST(Map<Localidad, List<Carretera>> map) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Map.Entry<Localidad, List<Carretera>> entrada : map.entrySet()) {
+            stringBuilder.append(entrada.getKey());
+            for (Carretera valor : entrada.getValue()) {
+                stringBuilder.append(" ➜ ").append(valor);
+            }
+            stringBuilder.append("<br><br>");
+        }
+        lblListaAdyacencia.setText("<html>" + stringBuilder.toString() + "</html>");
+        lblListaAdyacencia.setFont(cargarFuente("/fonts/Lato/Lato-Regular.ttf", 22F));
+        
+        panelRuta.setVisible(false);
+        scpPanelScroll.setVisible(true);
+        
+    }
+    
+    public void mostrarRuta(Map<Localidad, List<Carretera>> map) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Map.Entry<Localidad, List<Carretera>> entrada : map.entrySet()) {
+            stringBuilder.append("• ");
+            stringBuilder.append(entrada.getKey());
+            stringBuilder.append("<br>");
+        }
+        lblListaLocalidades.setText("<html>" + stringBuilder.toString() + "</html>");
+        lblListaLocalidades.setFont(cargarFuente("/fonts/Lato/Lato-Regular.ttf", 22F));
+        scpPanelScroll.setVisible(false);
+        panelRuta.setVisible(true);
+        setFuentesPanelRuta();
+    }
+    
+    private void setFuentesPanelRuta() {
+//        Font sizedFontThin = cargarFuente("/fonts/Lato/Lato-Thin.ttf", 24F);
+//        Font sizedFontLight = cargarFuente("/fonts/Lato/Lato-Light.ttf", 24F);
+        Font sizedFontRegular = cargarFuente("/fonts/Lato/Lato-Regular.ttf", 22F);
+        Font sizedFontRegular26 = cargarFuente("/fonts/Lato/Lato-Regular.ttf", 26F);
+        Font sizedFontBold = cargarFuente("/fonts/Lato/Lato-Bold.ttf", 36F);
+//        Font sizedFontBlack = cargarFuente("/fonts/Lato/Lato-Black.ttf", 24F);
+
+        lblLocalidades.setFont(sizedFontBold);
+        lblTextoInstrucciones.setFont(sizedFontRegular26);
+        lblCiudad1.setFont(sizedFontRegular);
+        lblCiudad2.setFont(sizedFontRegular);
+        txtLocalidad1.setFont(sizedFontRegular);
+        txtLocalidad2.setFont(sizedFontRegular);
+        btnCalcular.setFont(sizedFontRegular26);
+        
+    }
+
+    /**
+     * Carga una fuente desde un archivo de fuente TrueType (TTF) y la devuelve
+     * con el tamaño especificado.
+     *
+     * @param rutaFuente La ruta del archivo de fuente TrueType (TTF).
+     * @param size El tamaño de la fuente a cargar.
+     * @return La fuente cargada con el tamaño especificado.
+     * @throws IllegalArgumentException Si el archivo de fuente no se encuentra
+     * en la ruta especificada.
+     */
+    private static Font cargarFuente(String rutaFuente, float size) {
+        InputStream is = PanelInicio.class.getResourceAsStream(rutaFuente);
+        if (is == null) {
+            throw new IllegalArgumentException("Archivo no encontrado: " + rutaFuente);
+        }
+        try {
+            Font font = Font.createFont(Font.TRUETYPE_FONT, is);
+            return font.deriveFont(size);
+        } catch (FontFormatException | IOException ex) {
+            logger.log(Level.SEVERE, "Error al cargar la fuente: " + rutaFuente, ex);
+            return null;
+        } finally {
+            try {
+                is.close();
+            } catch (IOException ex) {
+                logger.log(Level.SEVERE, "Error al cerrar InputStream", ex);
+            }
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnArbol;
+    private javax.swing.JButton btnCalcular;
     private javax.swing.JButton btnGrafo;
     private javax.swing.JButton btnRuta;
     private javax.swing.JButton btnSalir;
+    private javax.swing.JLabel lblCiudad1;
+    private javax.swing.JLabel lblCiudad2;
+    private javax.swing.JLabel lblFlecha;
     private javax.swing.JLabel lblFondo;
+    private javax.swing.JLabel lblListaAdyacencia;
+    private javax.swing.JLabel lblListaLocalidades;
+    private javax.swing.JLabel lblLocalidades;
+    private javax.swing.JLabel lblResultado;
+    private javax.swing.JLabel lblTextoInstrucciones;
+    private javax.swing.JPanel panelRuta;
+    private javax.swing.JScrollPane scpPanelScroll;
+    private javax.swing.JTextField txtLocalidad1;
+    private javax.swing.JTextField txtLocalidad2;
     // End of variables declaration//GEN-END:variables
 }

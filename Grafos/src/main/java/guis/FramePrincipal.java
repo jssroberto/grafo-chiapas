@@ -1,7 +1,13 @@
 package guis;
 
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import localidades.Estado;
 
 /**
  *
@@ -9,12 +15,19 @@ import javax.swing.JPanel;
  */
 public class FramePrincipal extends javax.swing.JFrame {
 
+    private static final Logger logger = Logger.getLogger(FramePrincipal.class.getName());
+
     JPanel panelActual;
 
     /**
      * Creates new form FramePrincipal
      */
     public FramePrincipal() {
+        try {
+            UIManager.setLookAndFeel(new FlatMacLightLaf());
+        } catch (UnsupportedLookAndFeelException ex) {
+            logger.log(Level.SEVERE, ex.getMessage(), ex);
+        }
         initComponents();
     }
 
@@ -31,6 +44,7 @@ public class FramePrincipal extends javax.swing.JFrame {
         setTitle("Localidades de Chiapas");
         setMaximumSize(new java.awt.Dimension(1200, 800));
         setMinimumSize(new java.awt.Dimension(1200, 800));
+        setResizable(false);
         setSize(new java.awt.Dimension(1200, 800));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -52,8 +66,6 @@ public class FramePrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
-    
-
     /**
      * Método para limpiar el contenido de la ventana. Si hay un panel
      * actualmente mostrado, lo elimina de la ventana.
@@ -78,14 +90,14 @@ public class FramePrincipal extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.pack();  // Ajustar el tamaño automáticamente
     }
-    
+
     /**
      * Método para cambiar a la vista de la ventana de Inicio. Este método
      * elimina el panel actual
      */
-    public void cambiarVistaInicio() {
+    public void cambiarVistaInicio(Estado chiapas) {
         limpiarFrame();
-        PanelInicio panelInicio = new PanelInicio(this);
+        PanelInicio panelInicio = new PanelInicio(this, chiapas);
         ponerEnJFrame(panelInicio);
         panelActual = panelInicio;
     }
@@ -143,7 +155,7 @@ public class FramePrincipal extends javax.swing.JFrame {
                 JOptionPane.QUESTION_MESSAGE, // Tipo de icono (en este caso, pregunta)
                 null, // Icono personalizado (en este caso, ninguno)
                 opciones, // Opciones a mostrar
-                opciones[0]); // Opción por defecto seleccionada
+                -1); // Opción por defecto seleccionada
         // Ajustar el valor de retorno para que coincida con las opciones (1 y 2)
         return switch (seleccion) {
             case JOptionPane.YES_OPTION ->

@@ -82,6 +82,7 @@ public class Carretera {
      */
     @Override
     public String toString() {
-        return "Distancia (" + distancia + "km), Origen (" + origen + "), Destino (" + destino + ")";
+//        return "Distancia (" + distancia + "km), Origen (" + origen + "), Destino (" + destino + ")";
+        return destino + " (" + distancia + "km)";
     }
 }
