@@ -4,10 +4,13 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import localidades.Carretera;
 import localidades.Estado;
 import localidades.Localidad;
@@ -17,7 +20,7 @@ import localidades.Localidad;
  * @author Roberto García
  */
 public class PanelInicio extends javax.swing.JPanel {
-    
+
     private static final Logger logger = Logger.getLogger(PanelInicio.class.getName());
     private final FramePrincipal framePrincipal;
     private final Estado chiapas;
@@ -57,6 +60,8 @@ public class PanelInicio extends javax.swing.JPanel {
         btnGrafo = new javax.swing.JButton();
         btnArbol = new javax.swing.JButton();
         btnRuta = new javax.swing.JButton();
+        scpPanelScroll = new javax.swing.JScrollPane();
+        lblListaAdyacencia = new javax.swing.JLabel();
         panelRuta = new javax.swing.JPanel();
         lblListaLocalidades = new javax.swing.JLabel();
         lblLocalidades = new javax.swing.JLabel();
@@ -68,8 +73,6 @@ public class PanelInicio extends javax.swing.JPanel {
         lblCiudad1 = new javax.swing.JLabel();
         btnCalcular = new javax.swing.JButton();
         lblResultado = new javax.swing.JLabel();
-        scpPanelScroll = new javax.swing.JScrollPane();
-        lblListaAdyacencia = new javax.swing.JLabel();
         lblFondo = new javax.swing.JLabel();
 
         setMaximumSize(new java.awt.Dimension(1200, 800));
@@ -119,6 +122,16 @@ public class PanelInicio extends javax.swing.JPanel {
             }
         });
         add(btnRuta, new org.netbeans.lib.awtextra.AbsoluteConstraints(892, 125, 238, 40));
+
+        scpPanelScroll.setToolTipText("");
+        scpPanelScroll.setViewportView(lblListaAdyacencia);
+
+        lblListaAdyacencia.setForeground(new java.awt.Color(7, 7, 7));
+        lblListaAdyacencia.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        scpPanelScroll.setViewportView(lblListaAdyacencia);
+        lblListaAdyacencia.getAccessibleContext().setAccessibleDescription("");
+
+        add(scpPanelScroll, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 193, 1170, 592));
 
         panelRuta.setMaximumSize(new java.awt.Dimension(1170, 592));
         panelRuta.setMinimumSize(new java.awt.Dimension(1170, 592));
@@ -172,16 +185,6 @@ public class PanelInicio extends javax.swing.JPanel {
 
         add(panelRuta, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 193, 1170, 592));
 
-        scpPanelScroll.setToolTipText("");
-        scpPanelScroll.setViewportView(lblListaAdyacencia);
-
-        lblListaAdyacencia.setForeground(new java.awt.Color(7, 7, 7));
-        lblListaAdyacencia.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
-        scpPanelScroll.setViewportView(lblListaAdyacencia);
-        lblListaAdyacencia.getAccessibleContext().setAccessibleDescription("");
-
-        add(scpPanelScroll, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 193, 1170, 592));
-
         lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/inicio.png"))); // NOI18N
         add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1200, 800));
     }// </editor-fold>//GEN-END:initComponents
@@ -193,12 +196,13 @@ public class PanelInicio extends javax.swing.JPanel {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnGrafoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGrafoActionPerformed
-        
+
         int opcion = framePrincipal.mostrarOpciones("Selecciona como quieres que se\nmuestre el grafo de Chiapas", "Mostrar Grafo", "Lista de adyacencia", "Imagen");
         if (opcion == 1) {
             mostrarListaAdyacencia(listaAdyacencia);
         } else if (opcion == 2) {
-            
+            mostrarImagenGrafo();
+
         }
 
     }//GEN-LAST:event_btnGrafoActionPerformed
@@ -208,7 +212,7 @@ public class PanelInicio extends javax.swing.JPanel {
         if (opcion == 1) {
             mostrarListaAdyacencia(arbolEsparcimientoMinimo);
         } else if (opcion == 2) {
-            
+            mostrarImagenMST();
         }
     }//GEN-LAST:event_btnArbolActionPerformed
 
@@ -223,7 +227,29 @@ public class PanelInicio extends javax.swing.JPanel {
             framePrincipal.mostrarAviso(ex.getMessage(), "Aviso");
         }
     }//GEN-LAST:event_btnCalcularActionPerformed
+
+    public void mostrarImagenGrafo() {
+        lblListaAdyacencia.setText(null);
+        URL imageUrl = PanelInicio.class.getResource("/grafo.png");
+        if (imageUrl != null) {
+            ImageIcon imageIcon = new ImageIcon(imageUrl);
+            lblListaAdyacencia.setIcon(imageIcon);
+            panelRuta.setVisible(false);
+            scpPanelScroll.setVisible(true);
+        }
+    }
     
+    public void mostrarImagenMST() {
+        lblListaAdyacencia.setText(null);
+        URL imageUrl = PanelInicio.class.getResource("/mst.png");
+        if (imageUrl != null) {
+            ImageIcon imageIcon = new ImageIcon(imageUrl);
+            lblListaAdyacencia.setIcon(imageIcon);
+            panelRuta.setVisible(false);
+            scpPanelScroll.setVisible(true);
+        }
+    }
+
     public void calcularRuta() throws Exception {
         Localidad localidad1;
         Localidad localidad2;
@@ -245,14 +271,15 @@ public class PanelInicio extends javax.swing.JPanel {
                 .append("<br>y ")
                 .append(localidad2.toString())
                 .append(" son: ")
-                .append(String.valueOf(distancia))
+                .append(String.format("%.1f", distancia))
                 .append("km");
         lblResultado.setText("<html>" + stringBuilder.toString() + "</html>");
         lblResultado.setFont(cargarFuente("/fonts/Lato/Lato-Regular.ttf", 25F));
-        
+
     }
-    
+
     public void mostrarListaAdyacencia(Map<Localidad, List<Carretera>> map) {
+        lblListaAdyacencia.setIcon(null);
         StringBuilder stringBuilder = new StringBuilder();
         for (Map.Entry<Localidad, List<Carretera>> entrada : map.entrySet()) {
             stringBuilder.append(entrada.getKey());
@@ -265,10 +292,11 @@ public class PanelInicio extends javax.swing.JPanel {
         lblListaAdyacencia.setFont(cargarFuente("/fonts/Lato/Lato-Regular.ttf", 22F));
         panelRuta.setVisible(false);
         scpPanelScroll.setVisible(true);
-        
+
     }
-    
+
     public void mostrarMST(Map<Localidad, List<Carretera>> map) {
+        lblListaAdyacencia.setIcon(null);
         StringBuilder stringBuilder = new StringBuilder();
         for (Map.Entry<Localidad, List<Carretera>> entrada : map.entrySet()) {
             stringBuilder.append(entrada.getKey());
@@ -279,13 +307,15 @@ public class PanelInicio extends javax.swing.JPanel {
         }
         lblListaAdyacencia.setText("<html>" + stringBuilder.toString() + "</html>");
         lblListaAdyacencia.setFont(cargarFuente("/fonts/Lato/Lato-Regular.ttf", 22F));
-        
+
         panelRuta.setVisible(false);
         scpPanelScroll.setVisible(true);
-        
+
     }
-    
+
     public void mostrarRuta(Map<Localidad, List<Carretera>> map) {
+        lblListaAdyacencia.setIcon(null);
+
         StringBuilder stringBuilder = new StringBuilder();
         for (Map.Entry<Localidad, List<Carretera>> entrada : map.entrySet()) {
             stringBuilder.append("• ");
@@ -298,7 +328,7 @@ public class PanelInicio extends javax.swing.JPanel {
         panelRuta.setVisible(true);
         setFuentesPanelRuta();
     }
-    
+
     private void setFuentesPanelRuta() {
 //        Font sizedFontThin = cargarFuente("/fonts/Lato/Lato-Thin.ttf", 24F);
 //        Font sizedFontLight = cargarFuente("/fonts/Lato/Lato-Light.ttf", 24F);
@@ -314,7 +344,7 @@ public class PanelInicio extends javax.swing.JPanel {
         txtLocalidad1.setFont(sizedFontRegular);
         txtLocalidad2.setFont(sizedFontRegular);
         btnCalcular.setFont(sizedFontRegular26);
-        
+
     }
 
     /**
